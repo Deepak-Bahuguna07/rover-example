@@ -9,7 +9,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class PlateauTest {
     @Test
     void shouldAllowCoordinateWithinInclusiveBounds() {
-        Plateau plateau = new Plateau(new Coordinate(0, 0), new Coordinate(2, 2));
+        Plateau plateau = new Plateau();
+        plateau.initializeBoundary(new Coordinate(0, 0), new Coordinate(2, 2));
 
         assertTrue(plateau.isWithin(new Coordinate(2, 2)));
         assertFalse(plateau.isWithin(new Coordinate(3, 2)));

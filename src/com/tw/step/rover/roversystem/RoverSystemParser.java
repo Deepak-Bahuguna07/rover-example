@@ -9,6 +9,8 @@ import com.tw.step.rover.position.Direction;
 import com.tw.step.rover.position.Navigator;
 import com.tw.step.rover.rover.Rover;
 
+import java.nio.charset.CoderResult;
+
 public class RoverSystemParser {
     private final RoverSystemScanner scanner;
     private final Navigator navigator;
@@ -22,6 +24,10 @@ public class RoverSystemParser {
         this.commandCreator = commandCreator;
     }
 
+    private Coordinate parsePlateau() {
+        return scanner.scanBoundary();
+    }
+
     private Rover parseRover() {
         Coordinate coordinate = scanner.scanCoordinate();
         Direction heading = scanner.scanDirection();
@@ -29,6 +35,10 @@ public class RoverSystemParser {
     }
 
     public RoverSystem parse() {
+        Coordinate topRight = parsePlateau();
+        Coordinate bottomLeft = new Coordinate(0, 0);
+        boundary.initializeBoundary(bottomLeft,topRight);
+
         RoverSystem roverSystem = new RoverSystem();
         Rover rover = parseRover();
         roverSystem.addRover(rover);
@@ -40,6 +50,7 @@ public class RoverSystemParser {
     private RoverCommands parseRoverCommands() {
         RoverCommands roverCommands = new RoverCommands();
         String instructions = scanner.consume();
+
         for (int i = 0; i < instructions.length(); i++) {
             RoverCommand roverCommand = commandCreator.create(instructions.charAt(i), navigator, boundary);
             roverCommands.add(roverCommand);

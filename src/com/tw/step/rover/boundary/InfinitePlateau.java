@@ -7,4 +7,6 @@ public class InfinitePlateau implements Boundary {
     public boolean isWithin(Coordinate coord) {
         return true;
     }
+    public void initializeBoundary(Coordinate topRight, Coordinate bottomLeft){};
 }
+

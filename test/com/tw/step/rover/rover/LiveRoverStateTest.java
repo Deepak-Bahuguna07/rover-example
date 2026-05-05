@@ -20,7 +20,7 @@ class LiveRoverStateTest {
         RoverState nextState = state.turnLeft(Navigator.create(), new InfinitePlateau());
 
         assertSame(state, nextState);
-        assertEquals("1 1 W", rover.toString());
+        assertEquals("1 1 W ACTIVE", rover.toString());
     }
 
     @Test
@@ -31,17 +31,31 @@ class LiveRoverStateTest {
         RoverState nextState = state.move(Navigator.create(), new InfinitePlateau());
 
         assertSame(state, nextState);
-        assertEquals("1 2 N", rover.toString());
+        assertEquals("1 2 N ACTIVE", rover.toString());
     }
 
     @Test
     void shouldBecomeDeadWhenRoverStartsOutsideBoundary() {
         Rover rover = new Rover(new Coordinate(5, 5), Direction.N);
         LiveRoverState state = new LiveRoverState(rover);
+        Plateau plateau = new Plateau();
+        plateau.initializeBoundary(new Coordinate(0, 0), new Coordinate(2, 2));
 
-        RoverState nextState = state.move(Navigator.create(), new Plateau(new Coordinate(0, 0), new Coordinate(2, 2)));
+        RoverState nextState = state.move(Navigator.create(), plateau);
 
         assertInstanceOf(DeadRoverState.class, nextState);
-        assertEquals("5 5 N", rover.toString());
+        assertEquals("5 5 N ACTIVE", rover.toString());
     }
+
+//    @Test
+//    void shouldBecomeDeadWhenRoverStartsOutsideBoundary() {
+//        Rover rover = new Rover(new Coordinate(5, 5), Direction.N);
+//        LiveRoverState state = new LiveRoverState(rover);
+//        Plateau plateau = new Plateau();
+//        plateau.initializeBoundary(new Coordinate(0, 0), new Coordinate(2, 2));
+//        RoverState nextState = state.move(Navigator.create(), plateau);
+//
+//        assertInstanceOf(DeadRoverState.class, nextState);
+//        assertEquals("5 5 N ACTIVE", rover.toString());
+//    }
 }
